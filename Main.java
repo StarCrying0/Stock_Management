@@ -106,6 +106,7 @@ public class Main{
             qty = unsavedWrite.getQty();
             date = unsavedWrite.getDate();
             controller.savedWriteProduct(new StockDTO(id, name, price, qty, date));
+            System.out.println("* New Product: "+name+" was inserted successfully");
         }
         stockDAO.deleteUnsavedTableAfterSave("unsaved_write");
     }
@@ -153,12 +154,21 @@ public class Main{
             qty = unsavedUpdate.getQty();
             date = unsavedUpdate.getDate();
             controller.savedUpdateProduct(id,new StockDTO(id, name, price, qty, date));
+            System.out.println("* Update Product: "+id+" was update successfully");
         }
         stockDAO.deleteUnsavedTableAfterSave("unsaved_update_tb");
     }
     static void deleteProduct(Controller controller) throws SQLException{
-        System.out.print("Enter id you want to delete: ");int id=input.nextInt();input.nextLine();
-        controller.deleteProduct(id);
+        System.out.print("-> Enter id you want to delete: ");int id=Validation.checkID("delete");
+        for(StockDTO stock:stockList){
+            if(stock.getId()==id){
+                controller.deleteProduct(id);
+                System.out.println("Delete Successfully");
+                return;
+            }
+        }
+        System.out.println("Cant find data");
+        System.out.print("Press Enter to continue ...");input.nextLine();
     }
     static void read(StockDAO stockDAO) throws SQLException{
         System.out.print("Enter id you want to read: ");int id = Validation.checkID("read");

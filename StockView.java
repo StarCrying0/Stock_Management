@@ -159,30 +159,36 @@ public class StockView {
                     }
                     
                 }case "sa" ->{
+                    boolean check=true;
                     StockView stockView = new StockView();
                     Controller controller = new Controller(stockDAO, stockView);
-                    System.out.print("I for saved unsavedInsert and U for saved unsavedUpdate: ");
-                    String type = input.nextLine();
-                    switch(type.toLowerCase()){
-                        case "i" -> {
-                            stockDAO.getAll("unsaved_write");
-                            Main.insertProductToStockTB(stockDAO, controller);
-                            break;
-                        }case "u" -> {
-                            stockDAO.getAll("unsaved_update_tb");
-                            Main.updateProductToStockTB(stockDAO, controller);
-                            break;
+                    System.out.println("Do you want to saved Unsaved Inserted or Unsaved Update? Please choose one of them!");
+                    while (check) {                  
+                        System.out.print("I for saved unsavedInsert, U for saved unsavedUpdate or B to go back to main menu: ");
+                        String type = input.nextLine();
+                        switch(type.toLowerCase()){
+                            case "i" -> {
+                                stockDAO.getAll("unsaved_write");
+                                Main.insertProductToStockTB(stockDAO, controller);
+                                break;
+                            }case "u" -> {
+                                stockDAO.getAll("unsaved_update_tb");
+                                Main.updateProductToStockTB(stockDAO, controller);
+                                break;
+                            }case "b" ->{
+                                check=false;
+                                break;
+                            }
+                            default ->{
+                                System.out.println("Invalid Choice.");
+                                return;
+                            }
                         }
-                        default ->{
-                            System.out.println("Invalid Choice.");
-                            return;
-                        }
+                        Main.stockList.removeAll(Main.stockList);
+                        stockDAO.getAll("stock_tb");
+                        startIndex=0;
+                        startPage=1;
                     }
-                    Main.stockList.removeAll(Main.stockList);
-                    stockDAO.getAll("stock_tb");
-                    startIndex=0;
-                    startPage=1;
-                    break;
                 }
             }
         }
