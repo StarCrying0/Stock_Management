@@ -90,8 +90,13 @@ public class StockView {
                 }case "g" ->{
                     System.out.print("Input Page Number: ");
                     int pgNumber = input.nextInt();input.nextLine();
-                    startPage=pgNumber;
-                    startIndex= pgNumber == 1 ? 0 : (pgNumber-1)*Main.limit();
+                    if(pgNumber>endPage || pgNumber<=0){
+                        System.out.println("Error Page is between "+startPage+" - "+endPage);
+                        System.out.print("Enter to continue");input.nextLine();
+                    }else{
+                        startPage=pgNumber;
+                        startIndex= pgNumber == 1 ? 0 : (pgNumber-1)*Main.limit();
+                    }
                     break;
                 }case "w"->{
                     StockView stockView = new StockView();
@@ -137,25 +142,41 @@ public class StockView {
                 }case "un" ->{
                     StockView stockView = new StockView();
                     Controller controller = new Controller(stockDAO, stockView);
-                    System.out.println("Press I for show UnsavedInsert or U for show unsavedUpdate");
+                    System.out.print("Press I to show UnsavedInsert or U to show unsavedUpdate: ");
                     String type = input.nextLine();
-                    if(type.equalsIgnoreCase("i")){
-                        controller.showAllUnsavedWriteData();
-                    }else if(type.equalsIgnoreCase("u")){
-                        controller.showAllUnsavedUpdateData();
+                    switch(type.toLowerCase()){
+                        case "i" -> {
+                            controller.showAllUnsavedWriteData();
+                            break;
+                        }case "u" -> {
+                            controller.showAllUnsavedUpdateData();
+                            break;
+                        }
+                        default ->{
+                            System.out.println("Invalid Choice.");
+                            return;
+                        }
                     }
                     
                 }case "sa" ->{
                     StockView stockView = new StockView();
                     Controller controller = new Controller(stockDAO, stockView);
-                    System.out.println("I for saved unsavedInsert and U for saved unsavedUpdate");
+                    System.out.print("I for saved unsavedInsert and U for saved unsavedUpdate: ");
                     String type = input.nextLine();
-                    if(type.equalsIgnoreCase("i")){
-                        stockDAO.getAll("unsaved_write");
-                        Main.insertProductToStockTB(stockDAO, controller);
-                    }else if(type.equalsIgnoreCase("u")){
-                        stockDAO.getAll("unsaved_update_tb");
-                        Main.updateProductToStockTB(stockDAO, controller);
+                    switch(type.toLowerCase()){
+                        case "i" -> {
+                            stockDAO.getAll("unsaved_write");
+                            Main.insertProductToStockTB(stockDAO, controller);
+                            break;
+                        }case "u" -> {
+                            stockDAO.getAll("unsaved_update_tb");
+                            Main.updateProductToStockTB(stockDAO, controller);
+                            break;
+                        }
+                        default ->{
+                            System.out.println("Invalid Choice.");
+                            return;
+                        }
                     }
                     Main.stockList.removeAll(Main.stockList);
                     stockDAO.getAll("stock_tb");
@@ -169,7 +190,7 @@ public class StockView {
     static void printSearchID(int id,String name,double price,int qty,String date){
         Table T = new Table(1,BorderStyle.UNICODE_BOX_WIDE);
         T.setColumnWidth(0, 20, 30);
-        T.addCell("Product: ",center);
+        T.addCell("Product ",center);
         T.addCell("Id: " + id);
         T.addCell("Name: " +name);
         T.addCell("Price: "+price);

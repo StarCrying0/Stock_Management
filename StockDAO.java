@@ -52,7 +52,6 @@ class StockDOAImp implements StockDAO{
     }
     public void addProduct(StockDTO stockDTO,String table) throws SQLException{
         Connection con = Main.connectionToDB();
-        String sql;
         PreparedStatement ps = null;
         if(table.equals("unsaved_write")){
             ps = con.prepareStatement("INSERT INTO "+table+"(id,name,price,qty) VALUES(?,?,?,?)");
