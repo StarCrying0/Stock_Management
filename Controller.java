@@ -27,11 +27,12 @@ class Controller {
     }
 
     void deleteProduct(int id) throws SQLException{
-        stockDAO.deleteProduct(id);
+        stockDAO.readData(id);
+        Main.checkConfirmationOnDelete(id);
     }
 
     void searchProduct(){
-        Main.Search();
+        Main.search();
     }
     void showAllUnsavedWriteData() throws SQLException, FileNotFoundException{
         Main.unsavedWriteList.removeAll(Main.unsavedWriteList);

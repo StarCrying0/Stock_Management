@@ -163,13 +163,33 @@ public class Main{
         for(StockDTO stock:stockList){
             if(stock.getId()==id){
                 controller.deleteProduct(id);
-                System.out.println("Delete Successfully");
                 return;
             }
         }
         System.out.println("Cant find data");
         System.out.print("Press Enter to continue ...");input.nextLine();
     }
+    static void checkConfirmationOnDelete(int id) throws SQLException{
+        boolean check=true;
+        while (check){
+            System.out.print("Press Y to confirm or B for back to menu : ");
+            String choice = input.nextLine();
+            switch (choice.toLowerCase()) {
+                case "y":
+                    stockDAO.deleteProduct(id);
+                    System.out.println("* Delete Product: "+id+" was delete successfully");
+                    check=false;
+                    break;
+                case "b":
+                    check=false;
+                    break;
+                default:
+                    System.out.println("\nInvalid Choice\nPlease try again...");
+                    stockDAO.readData(id);
+            }
+        }
+    }
+
     static void read(StockDAO stockDAO) throws SQLException{
         System.out.print("Enter id you want to read: ");int id = Validation.checkID("read");
         for(StockDTO stock:stockList){
@@ -181,7 +201,7 @@ public class Main{
         System.out.println("Cant find data");
     }
 
-    static void Search(){
+    static void search(){
         boolean checkLoop = true;
         while (checkLoop) {
             System.out.print("Enter Product you want to Search: ");

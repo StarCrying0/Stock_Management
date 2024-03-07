@@ -202,9 +202,9 @@ public class StockView {
         T.addCell("Price: "+price);
         T.addCell("Qty: " +qty);
         T.addCell("Imported Date: "+date);
-        System.out.println(price);
         System.out.println(T.render());
     }
+
 
     void printUnsavedWrite(StockDAO stockDAO){  
         Table T = new Table(4,BorderStyle.UNICODE_BOX_WIDE,ShownBorders.ALL);
