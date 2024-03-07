@@ -60,8 +60,21 @@ public class Main{
         FileWriter writer = new FileWriter("limit.txt");
         System.out.print("-> Set row: ");
         int setRow = input.nextInt();input.nextLine();
-        writer.write(String.valueOf(setRow));
-        writer.close();
+        if(setRow<=0 || setRow>stockList.size()){
+            try {
+                System.out.println("Cannot below or equal 0 or bigger than the Record: "+stockDAO.getCount("stock_tb"));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Set it to default 3.");
+            System.out.print("\nPress Enter to continue. . .");input.nextLine();
+            writer.write(String.valueOf(3));
+            writer.close();
+            return;
+        }else{
+            writer.write(String.valueOf(setRow));
+            writer.close();
+        }
     }
     static void writerKeepTab(int num) throws IOException{
         FileWriter writer = new FileWriter("keeptab.txt");

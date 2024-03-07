@@ -205,7 +205,6 @@ public class StockView {
         System.out.println(T.render());
     }
 
-
     void printUnsavedWrite(StockDAO stockDAO){  
         Table T = new Table(4,BorderStyle.UNICODE_BOX_WIDE,ShownBorders.ALL);
         T.setColumnWidth(0, 10, 20);
