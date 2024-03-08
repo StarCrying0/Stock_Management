@@ -22,9 +22,9 @@ class Validation {
     static String checkName(String type){
         Pattern checkNamePattern = Pattern .compile("^[^\\s][a-zA-Z0-9\\s]+$");
         boolean check=true;
-        String name = input.nextLine();
+        String name = input.nextLine();input.nextLine();
         while(check){
-            Matcher matchName = checkNamePattern.matcher(name);
+            Matcher matchName = checkNamePattern.matcher(name); 
             if(!matchName.matches()){
                 System.out.println("Name allow only number and letters");
                 System.out.print(type.equals("insert")?"-> Enter product name: ":"Change Product name to : ");

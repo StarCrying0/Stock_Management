@@ -101,7 +101,7 @@ public class Main{
         }
         keep=readKeepTab()-1;
         
-        int temp = stockDOA.getCount("unsaved_write");
+        int temp = stockDOA.getCount("unsaved_write_tb");
         System.out.println("ID: "+ (auto()+temp+1));
         System.out.print("-> Enter Product name: ");String name = Validation.checkName("insert");
         System.out.print("-> Enter Product price: ");double price = Validation.checkPrice("insert");
@@ -111,7 +111,7 @@ public class Main{
     static void insertProductToStockTB(StockDAO stockDAO,Controller controller) throws SQLException{
         int id=0,qty=0;String name="",date=""; double price=0;
         unsavedWriteList.removeAll(unsavedWriteList);
-        stockDAO.getAll("unsaved_write");
+        stockDAO.getAll("unsaved_write_tb");
         for(StockDTO unsavedWrite : unsavedWriteList){
             id = unsavedWrite.getId();
             name = unsavedWrite.getName();
@@ -121,7 +121,7 @@ public class Main{
             controller.savedWriteProduct(new StockDTO(id, name, price, qty, date));
             System.out.println("* New Product: "+name+" was inserted successfully");
         }
-        stockDAO.deleteUnsavedTableAfterSave("unsaved_write");
+        stockDAO.deleteUnsavedTableAfterSave("unsaved_write_tb");
     }
     static void updateProduct(StockDAO stockDAO,Controller controller) throws SQLException{
         boolean isFound = false,check=true;
@@ -272,21 +272,21 @@ public class Main{
     }
     public static void main(String[] args) throws SQLException, IOException {
         //System.out.println(date);
-        // try {
-        //     Connection con = connectionToDB();
-        //     Statement sta = con.createStatement();
-        //     sta.execute("Create Table stock_tb(id SERIAL PRIMARY KEY,name VARCHAR,price DECIMAL(6,2) check(price>0),qty int,imported_date DATE Default '" + date + "')");
-        //     sta.executeUpdate("INSERT INTO stock_tb(name,price,qty) VALUES('Green Tea',1.99,100), ('Orange Juice',2.99,80),('Iced Coffee',4.49,50),('Ginger Beer',1.49,90),('Smoothie',3.29,70),('Lemonade',2.99,30),('Latte',3.99,60),('Strawberry Lemonade',4.49,50)");
-        //     writerKeepTab(auto());
-        // } catch (Exception e) {
-        //     System.out.println("Error");
-        // }
+        try {
+            Connection con = connectionToDB();
+            Statement sta = con.createStatement();
+            sta.execute("Create Table unsaved_write_tb(id SERIAL PRIMARY KEY,name VARCHAR,price DECIMAL(6,2) check(price>0),qty int,imported_date DATE Default '" + date + "')");
+            sta.executeUpdate("INSERT INTO stock_tb(name,price,qty) VALUES('Green Tea',1.99,100), ('Orange Juice',2.99,80),('Iced Coffee',4.49,50),('Ginger Beer',1.49,90),('Smoothie',3.29,70),('Lemonade',2.99,30),('Latte',3.99,60),('Strawberry Lemonade',4.49,50)");
+            writerKeepTab(auto());
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
         StockDAO stockDAO = new StockDOAImp();
         StockView stockView = new StockView();
         Controller controller = new Controller(stockDAO, stockView);
         // System.out.println("read " +readKeepTab());
         // System.out.println(stockDAO.getCount("stock_tb"));
-        // System.out.println(stockDAO.getCount("unsaved_write"));
+        // System.out.println(stockDAO.getCount("unsaved_write_tb"));
         controller.showAllData();
         // System.out.println(auto());
         // controller.getCount();

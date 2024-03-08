@@ -28,7 +28,7 @@ class StockDOAImp implements StockDAO{
             stockDTO = new StockDTO(id, name, price, qty, date);
             if(table.equals("stock_tb")){
                 Main.stockList.add(stockDTO);
-            }else if(table.equals("unsaved_write")){
+            }else if(table.equals("unsaved_write_tb")){
                 Main.unsavedWriteList.add(stockDTO);
             }else if(table.equals("unsaved_update_tb")){
                 Main.unsavedUpdateList.add(stockDTO);
@@ -53,7 +53,7 @@ class StockDOAImp implements StockDAO{
     public void addProduct(StockDTO stockDTO,String table) throws SQLException{
         Connection con = Main.connectionToDB();
         PreparedStatement ps = null;
-        if(table.equals("unsaved_write")){
+        if(table.equals("unsaved_write_tb")){
             ps = con.prepareStatement("INSERT INTO "+table+"(id,name,price,qty) VALUES(?,?,?,?)");
             ps.setInt(1,stockDTO.getId());
             ps.setString(2,stockDTO.getName());

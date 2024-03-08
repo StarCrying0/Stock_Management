@@ -20,7 +20,7 @@ class Controller {
     }
 
     void insertProductToUnsavedWriteTB(StockDTO stockDTO) throws SQLException{
-        stockDAO.addProduct(stockDTO, "unsaved_write");
+        stockDAO.addProduct(stockDTO, "unsaved_write_tb");
     }
     void updateProductToUnsavedUpdate(int id,StockDTO stockDTO) throws SQLException{
         stockDAO.updateProduct(id, stockDTO,"unsaved_update_tb");
@@ -36,15 +36,15 @@ class Controller {
     }
     void showAllUnsavedWriteData() throws SQLException, FileNotFoundException{
         Main.unsavedWriteList.removeAll(Main.unsavedWriteList);
-        stockDAO.getAll("unsaved_write");
+        stockDAO.getAll("unsaved_write_tb");
         stockView.printUnsavedWrite(stockDAO);
-        //stockDAO.deleteUnsavedTableAfterSave("unsaved_write");
+        //stockDAO.deleteUnsavedTableAfterSave("unsaved_write_tb");
     }
     void showAllUnsavedUpdateData() throws SQLException, FileNotFoundException{
         Main.unsavedUpdateList.removeAll(Main.unsavedUpdateList);
         stockDAO.getAll("unsaved_update_tb");
         stockView.printUnsavedUpdate(stockDAO);
-        //stockDAO.deleteUnsavedTableAfterSave("unsaved_write");
+        //stockDAO.deleteUnsavedTableAfterSave("unsaved_write_tb");
     }
 
     void savedWriteProduct(StockDTO stockDTO) throws SQLException{

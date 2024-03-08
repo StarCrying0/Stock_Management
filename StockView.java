@@ -142,11 +142,13 @@ public class StockView {
                 }case "un" ->{
                     StockView stockView = new StockView();
                     Controller controller = new Controller(stockDAO, stockView);
+                    controller.showAllUnsavedWriteData();
                     System.out.print("Press I to show UnsavedInsert or U to show unsavedUpdate: ");
                     String type = input.nextLine();
                     switch(type.toLowerCase()){
                         case "i" -> {
                             controller.showAllUnsavedWriteData();
+                            System.out.print("Press Enter to Continue ...");input.nextLine();
                             break;
                         }case "u" -> {
                             controller.showAllUnsavedUpdateData();
@@ -154,7 +156,7 @@ public class StockView {
                         }
                         default ->{
                             System.out.println("Invalid Choice.");
-                            return;
+                            break;
                         }
                     }
                     
@@ -168,7 +170,7 @@ public class StockView {
                         String type = input.nextLine();
                         switch(type.toLowerCase()){
                             case "i" -> {
-                                stockDAO.getAll("unsaved_write");
+                                stockDAO.getAll("unsaved_write_tb");
                                 Main.insertProductToStockTB(stockDAO, controller);
                                 break;
                             }case "u" -> {
@@ -181,7 +183,7 @@ public class StockView {
                             }
                             default ->{
                                 System.out.println("Invalid Choice.");
-                                return;
+                                break;
                             }
                         }
                         Main.stockList.removeAll(Main.stockList);
@@ -227,7 +229,6 @@ public class StockView {
             }
         }
         System.out.println(T.render());
-        System.out.print("Press Enter to Continue ...");input.nextLine();
     }
     void printUnsavedUpdate(StockDAO stockDAO){  
         Table T = new Table(4,BorderStyle.UNICODE_BOX_WIDE,ShownBorders.ALL);
