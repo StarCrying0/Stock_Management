@@ -137,16 +137,20 @@ public class Main{
             }
             if(isFound==false){
                 System.out.println("Cannot find id.");
-                System.out.print("Press 1 if you want to input new ID or 0 to go back to main menu : ");
-                String choice = input.nextLine();
-                switch (choice) {
-                    case "1":
-                        break;
-                    case "0":
-                        return;
-                    default:
-                        System.out.println("Invalid choice. Pick again.");
-                        break;
+                boolean checkAgain = true;
+                while(checkAgain){
+                    System.out.print("Press 1 if you want to input new ID or 0 to go back to main menu : ");
+                    String choice = input.nextLine();
+                    switch (choice) {
+                        case "1":
+                            checkAgain=false;
+                            break;
+                        case "0":
+                            return;
+                        default:
+                            System.out.println("Invalid choice. Pick again.");
+                            break;
+                    }
                 }
             }
         }
