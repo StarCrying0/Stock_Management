@@ -279,7 +279,7 @@ public class Main{
         try {
             Connection con = connectionToDB();
             Statement sta = con.createStatement();
-            sta.execute("Create Table unsaved_write_tb(id SERIAL PRIMARY KEY,name VARCHAR,price DECIMAL(6,2) check(price>0),qty int,imported_date DATE Default '" + date + "')");
+            sta.execute("Create Table stock_tb(id SERIAL PRIMARY KEY,name VARCHAR,price DECIMAL(6,2) check(price>0),qty int,imported_date DATE Default '" + date + "')");
             sta.executeUpdate("INSERT INTO stock_tb(name,price,qty) VALUES('Green Tea',1.99,100), ('Orange Juice',2.99,80),('Iced Coffee',4.49,50),('Ginger Beer',1.49,90),('Smoothie',3.29,70),('Lemonade',2.99,30),('Latte',3.99,60),('Strawberry Lemonade',4.49,50)");
             writerKeepTab(auto());
         } catch (Exception e) {

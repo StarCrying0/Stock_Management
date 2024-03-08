@@ -191,7 +191,7 @@ public class StockView {
                         startIndex=0;
                         startPage=1;
                     }
-                }
+                }default ->System.out.println("Invalid Command!");
             }
         }
     }
