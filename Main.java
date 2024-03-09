@@ -102,7 +102,7 @@ public class Main{
         keep=readKeepTab()-1;
         
         int temp = stockDOA.getCount("unsaved_write_tb");
-        System.out.println("ID: "+ (auto()+temp+1));
+        //System.out.println("ID: "+ (auto()+temp+1));
         System.out.print("-> Enter Product name: ");String name = Validation.checkName("insert");
         System.out.print("-> Enter Product price: ");double price = Validation.checkPrice("insert");
         System.out.print("-> Enter quantity: ");int qty = Validation.checkQty("insert");
