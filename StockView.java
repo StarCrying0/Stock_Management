@@ -31,16 +31,20 @@ public class StockView {
             T.addCell("Unit Price",center);
             T.addCell("QTY",center);
             T.addCell("Imported Date",center);
-            Main.stockList.stream()
-                .skip(startIndex)
-                .limit(Main.limit())
-                .forEach(stock -> {
-                T.addCell(""+stock.getId(),center);
-                T.addCell(stock.getName(),center);
-                T.addCell(""+stock.getPrice(),center);
-                T.addCell(""+stock.getQty(),center);
-                T.addCell(stock.getDate(),center);
-            });
+            if(Main.stockList.size()==0){
+                T.addCell("No data in the database.",center,5);
+            }else{
+                Main.stockList.stream()
+                    .skip(startIndex)
+                    .limit(Main.limit())
+                    .forEach(stock -> {
+                    T.addCell(""+stock.getId(),center);
+                    T.addCell(stock.getName(),center);
+                    T.addCell(""+stock.getPrice(),center);
+                    T.addCell(""+stock.getQty(),center);
+                    T.addCell(stock.getDate(),center);
+                });
+            }
             int endPage = Main.stockList.size()/Main.limit() + (Main.stockList.size()%Main.limit()>0?1:0);
             T.addCell("Page : "+ startPage + " of " + endPage,2);
             try {
