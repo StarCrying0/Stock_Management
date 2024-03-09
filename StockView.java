@@ -12,7 +12,7 @@ public class StockView {
     static int startPage = 1;
     static CellStyle center = new CellStyle(CellStyle.HorizontalAlign.center);
     static Scanner input = new Scanner(System.in);
-    void printStockDetails(StockDAO stockDAO) throws SQLException, IOException{
+    void printStockDetails(StockDAO stockDAO){
         while(true){
             if(startIndex>=Main.stockList.size()){            
                 startIndex = Main.stockList.size()-(Main.stockList.size()%Main.limit());
@@ -43,13 +43,17 @@ public class StockView {
             });
             int endPage = Main.stockList.size()/Main.limit() + (Main.stockList.size()%Main.limit()>0?1:0);
             T.addCell("Page : "+ startPage + " of " + endPage,2);
-            T.addCell("Total Record: " + stockDAO.getCount("stock_tb"),3);
+            try {
+                T.addCell("Total Record: " + stockDAO.getCount("stock_tb"),3);
+            } catch (SQLException e) {
+                System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+            }
             System.out.println(T.render());
     
             System.out.println("F) First\t P) Previous\t N) Next\t L) Last\t G) Goto");
             System.out.println("\n*) Display");
             System.out.println("W) Write\tR) Read\t\tU) Update\tD) Delete\tS) Search");
-            System.out.println("Se) Set Row\tSa) Save\tUn) Unsaved\tBa) Backup\tRe) Restore\tE) Exit");
+            System.out.println("Se) Set Row\tSa) Save\tUn) Unsaved\tE) Exit");
             System.out.println("---------------------------------");
             System.out.print("-> Choose Option: ");
             String option = input.nextLine();
@@ -101,7 +105,11 @@ public class StockView {
                 }case "w"->{
                     StockView stockView = new StockView();
                     Controller controller = new Controller(stockDAO, stockView);
-                    Main.insertProductToUnsavedWrite(stockDAO,controller);
+                    try {
+                        Main.insertProductToUnsavedWrite(stockDAO,controller);
+                    } catch (IOException e) {
+                        System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+                    }
                     startIndex=0;
                     startPage=1;
                     break;
@@ -116,7 +124,11 @@ public class StockView {
                     Controller controller = new Controller(stockDAO, stockView);
                     Main.deleteProduct(controller);
                     Main.stockList.removeAll(Main.stockList);
-                    stockDAO.getAll("stock_tb");
+                    try {
+                        stockDAO.getAll("stock_tb");
+                    } catch (SQLException e) {
+                        System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+                    }
                     startIndex=0;
                     startPage=1;
                     break;
@@ -125,7 +137,11 @@ public class StockView {
                     Controller controller = new Controller(stockDAO, stockView);
                     Main.updateProduct(stockDAO,controller);
                     Main.stockList.removeAll(Main.stockList);
-                    stockDAO.getAll("stock_tb");
+                    try {
+                        stockDAO.getAll("stock_tb");
+                    } catch (SQLException e) {
+                        System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+                    }
                     startIndex=0;
                     startPage=1;
                     break;
@@ -174,11 +190,19 @@ public class StockView {
                         String type = input.nextLine();
                         switch(type.toLowerCase()){
                             case "i" -> {
-                                stockDAO.getAll("unsaved_write_tb");
+                                try {
+                                    stockDAO.getAll("unsaved_write_tb");
+                                } catch (SQLException e) {
+                                    System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+                                }
                                 Main.insertProductToStockTB(stockDAO, controller);
                                 break;
                             }case "u" -> {
-                                stockDAO.getAll("unsaved_update_tb");
+                                try {
+                                    stockDAO.getAll("unsaved_update_tb");
+                                } catch (SQLException e) {
+                                    System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+                                }
                                 Main.updateProductToStockTB(stockDAO, controller);
                                 break;
                             }case "b" ->{
@@ -191,7 +215,11 @@ public class StockView {
                             }
                         }
                         Main.stockList.removeAll(Main.stockList);
-                        stockDAO.getAll("stock_tb");
+                        try {
+                            stockDAO.getAll("stock_tb");
+                        } catch (SQLException e) {
+                            System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+                        }
                         startIndex=0;
                         startPage=1;
                     }

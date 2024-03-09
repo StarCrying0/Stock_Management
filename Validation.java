@@ -9,7 +9,7 @@ class Validation {
         int id=0;
         while(check){
             if(!input.hasNextInt()){
-                System.out.println("ID dont allow letter or digit");
+                System.out.println(Main.ANSI_RED+"ID dont allow letter or digit"+Main.ANSI_RESET);
                 System.out.print("-> Enter ID you want to "+type+": ");
                 input.next();
             }else{
@@ -26,14 +26,14 @@ class Validation {
         while(check){
             Matcher matchName = checkNamePattern.matcher(name); 
             if(!matchName.matches()){
-                System.out.println("Name allow only number and letters");
+                System.out.println(Main.ANSI_RED+"Name allow only number and letters"+Main.ANSI_RESET);
                 System.out.print(type.equals("insert")?"-> Enter product name: ":"Change Product name to : ");
                 name = input.nextLine();
             }else{
                 for(StockDTO  stock : Main.stockList){
                     if (stock.getName().equalsIgnoreCase(name)) {
-                        System.out.println("\nThis name is already in use, please enter another one.");
-                        System.out.print(type.equals("insert")?"-> Enter product name: ":"-> Change Product name to : ");
+                        System.out.println(Main.ANSI_RED+"\nThis name is already in use, please enter another one."+Main.ANSI_RESET);
+                        System.out.print(type.equals("insert")?"-> Enter product name: ":"Change Product name to : ");
                         name = input.nextLine();
                     }else{
                         check=false;
@@ -48,14 +48,14 @@ class Validation {
         double price=0;
         while(check){
             if(!input.hasNextDouble()){
-                System.out.println("Price only allow numbers");
-                System.out.print(type.equals("insert")?"-> Enter Product Price: ":"-> Change Product price to: ");
+                System.out.println(Main.ANSI_RED+"Price only allow numbers"+Main.ANSI_RESET);
+                System.out.print(type.equals("insert")?"-> Enter Product Price: ":"Change Product price to: ");
                 input.next();
             }else{
                 price = input.nextDouble();input.nextLine();
                 if(price<=0){
-                    System.out.println("Price cannot be 0 or less than 0");
-                    System.out.print(type.equals("insert")?"-> Enter Product Price: ":"-> Change Product price to: ");
+                    System.out.println(Main.ANSI_RED+"Price cannot be 0 or less than 0"+Main.ANSI_RESET);
+                    System.out.print(type.equals("insert")?"-> Enter Product Price: ":"Change Product price to: ");
                 }else{
                     check=false;
                 }
@@ -68,8 +68,8 @@ class Validation {
         int qty=0;
         while(check){
             if(!input.hasNextInt()){
-                System.out.println("QTY only allow numbers and no digit");
-                System.out.print(type.equals("insert")?"-> Enter Product Quantity: ":"-> Change Product qty to: ");
+                System.out.println(Main.ANSI_RED+"QTY only allow numbers and no digit"+Main.ANSI_RESET);
+                System.out.print(type.equals("insert")?"-> Enter Product Quantity: ":"Change Product qty to: ");
                 input.next();
             }else{
                 qty = input.nextInt();input.nextLine();

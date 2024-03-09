@@ -1,5 +1,3 @@
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.SQLException;
 
 class Controller {
@@ -10,47 +8,83 @@ class Controller {
         this.stockView=stockView;
     }
 
-    void showAllData() throws SQLException, IOException{
-        stockDAO.getAll("stock_tb");
+    void showAllData() {
+        try {
+            stockDAO.getAll("stock_tb");
+        } catch (SQLException e) {
+            System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+        }
         Main.keep=Main.auto();
         stockView.printStockDetails(stockDAO);
     }
-    void getCount() throws SQLException{
-        System.out.println(stockDAO.getCount("stock_tb"));
+    void getCount(){
+        try {
+            System.out.println(stockDAO.getCount("stock_tb"));
+        } catch (SQLException e) {
+            System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+        }
     }
 
-    void insertProductToUnsavedWriteTB(StockDTO stockDTO) throws SQLException{
-        stockDAO.addProduct(stockDTO, "unsaved_write_tb");
+    void insertProductToUnsavedWriteTB(StockDTO stockDTO){
+        try {
+            stockDAO.addProduct(stockDTO, "unsaved_write_tb");
+        } catch (SQLException e) {
+            System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+        }
     }
-    void updateProductToUnsavedUpdate(int id,StockDTO stockDTO) throws SQLException{
-        stockDAO.updateProduct(id, stockDTO,"unsaved_update_tb");
+    void updateProductToUnsavedUpdate(int id,StockDTO stockDTO){
+        try {
+            stockDAO.updateProduct(id, stockDTO,"unsaved_update_tb");
+        } catch (SQLException e) {
+            System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+        }
     }
 
-    void deleteProduct(int id) throws SQLException{
-        stockDAO.readData(id);
+    void deleteProduct(int id){
+        try {
+            stockDAO.readData(id);
+        } catch (SQLException e) {
+            System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+        }
         Main.checkConfirmationOnDelete(id);
     }
 
     void searchProduct(){
         Main.search();
     }
-    void showAllUnsavedWriteData() throws SQLException, FileNotFoundException{
+    void showAllUnsavedWriteData(){
         Main.unsavedWriteList.removeAll(Main.unsavedWriteList);
-        stockDAO.getAll("unsaved_write_tb");
+        try {
+            stockDAO.getAll("unsaved_write_tb");
+        } catch (SQLException e) {
+            System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+        }
         stockView.printUnsavedWrite(stockDAO);
         //stockDAO.deleteUnsavedTableAfterSave("unsaved_write_tb");
     }
-    void showAllUnsavedUpdateData() throws SQLException, FileNotFoundException{
+    void showAllUnsavedUpdateData(){
         Main.unsavedUpdateList.removeAll(Main.unsavedUpdateList);
-        stockDAO.getAll("unsaved_update_tb");
+        try {
+            stockDAO.getAll("unsaved_update_tb");
+        } catch (SQLException e) {
+            System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+        }
         stockView.printUnsavedUpdate(stockDAO);
         //stockDAO.deleteUnsavedTableAfterSave("unsaved_write_tb");
     }
 
-    void savedWriteProduct(StockDTO stockDTO) throws SQLException{
-        stockDAO.addProduct(stockDTO, "stock_tb");
+    void savedWriteProduct(StockDTO stockDTO){
+        try {
+            stockDAO.addProduct(stockDTO, "stock_tb");
+        } catch (SQLException e) {
+            System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+        }
     }
-    void savedUpdateProduct(int id,StockDTO stockDTO) throws SQLException{
-        stockDAO.updateProduct(id, stockDTO, "stock_tb");
+    void savedUpdateProduct(int id,StockDTO stockDTO){
+        try {
+            stockDAO.updateProduct(id, stockDTO, "stock_tb");
+        } catch (SQLException e) {
+            System.out.println(Main.ANSI_RED+e.getMessage()+Main.ANSI_RESET);
+        }
     }
 }
