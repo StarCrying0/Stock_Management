@@ -91,7 +91,7 @@ public class Main{
         }
         return biggest;
     }
-    static void insertProduct(StockDAO stockDOA,Controller controller) throws SQLException, IOException{
+    static void insertProductToUnsavedWrite(StockDAO stockDOA,Controller controller) throws SQLException, IOException{
         // System.out.println("Keeph" +keeph);
         // int keep = StockView.keepTab;
         // System.out.println("Keep : "+keep);
@@ -105,23 +105,27 @@ public class Main{
         //System.out.println("ID: "+ (auto()+temp+1));
         System.out.print("-> Enter Product name: ");String name = Validation.checkName("insert");
         System.out.print("-> Enter Product price: ");double price = Validation.checkPrice("insert");
-        System.out.print("-> Enter quantity: ");int qty = Validation.checkQty("insert");
+        System.out.print("-> Enter Product quantity: ");int qty = Validation.checkQty("insert");
         controller.insertProductToUnsavedWriteTB(new StockDTO((auto()+temp+1), name, price, qty, date));
     }
     static void insertProductToStockTB(StockDAO stockDAO,Controller controller) throws SQLException{
-        int id=0,qty=0;String name="",date=""; double price=0;
-        unsavedWriteList.removeAll(unsavedWriteList);
-        stockDAO.getAll("unsaved_write_tb");
-        for(StockDTO unsavedWrite : unsavedWriteList){
-            id = unsavedWrite.getId();
-            name = unsavedWrite.getName();
-            price = unsavedWrite.getPrice();
-            qty = unsavedWrite.getQty();
-            date = unsavedWrite.getDate();
-            controller.savedWriteProduct(new StockDTO(id, name, price, qty, date));
-            System.out.println("* New Product: "+name+" was inserted successfully");
+        if(stockDAO.getCount("unsaved_write_tb")==0){
+            System.out.println("Nothing to Insert");
+        }else{
+            int id=0,qty=0;String name="",date=""; double price=0;
+            unsavedWriteList.removeAll(unsavedWriteList);
+            stockDAO.getAll("unsaved_write_tb");
+            for(StockDTO unsavedWrite : unsavedWriteList){
+                id = unsavedWrite.getId();
+                name = unsavedWrite.getName();
+                price = unsavedWrite.getPrice();
+                qty = unsavedWrite.getQty();
+                date = unsavedWrite.getDate();
+                controller.savedWriteProduct(new StockDTO(id, name, price, qty, date));
+                System.out.println("* New Product: "+name+" was inserted successfully");
+            }
+            stockDAO.deleteUnsavedTableAfterSave("unsaved_write_tb");
         }
-        stockDAO.deleteUnsavedTableAfterSave("unsaved_write_tb");
     }
     static void updateProduct(StockDAO stockDAO,Controller controller) throws SQLException{
         boolean isFound = false,check=true;
@@ -161,19 +165,23 @@ public class Main{
     }
 
     static void updateProductToStockTB(StockDAO stockDAO,Controller controller) throws SQLException{
-        int id=0,qty=0;String name="",date=""; double price=0;
-        unsavedUpdateList.removeAll(unsavedUpdateList);
-        stockDAO.getAll("unsaved_update_tb");
-        for(StockDTO unsavedUpdate : unsavedUpdateList){
-            id = unsavedUpdate.getId();
-            name = unsavedUpdate.getName();
-            price = unsavedUpdate.getPrice();
-            qty = unsavedUpdate.getQty();
-            date = unsavedUpdate.getDate();
-            controller.savedUpdateProduct(id,new StockDTO(id, name, price, qty, date));
-            System.out.println("* Update Product: "+id+" was update successfully");
+        if(stockDAO.getCount("unsaved_update_tb")==0){
+            System.out.println("Nothing to Update");
+        }else{
+            int id=0,qty=0;String name="",date=""; double price=0;
+            unsavedUpdateList.removeAll(unsavedUpdateList);
+            stockDAO.getAll("unsaved_update_tb");
+            for(StockDTO unsavedUpdate : unsavedUpdateList){
+                id = unsavedUpdate.getId();
+                name = unsavedUpdate.getName();
+                price = unsavedUpdate.getPrice();
+                qty = unsavedUpdate.getQty();
+                date = unsavedUpdate.getDate();
+                controller.savedUpdateProduct(id,new StockDTO(id, name, price, qty, date));
+                System.out.println("* Update Product: "+id+" was update successfully");
+            }
+            stockDAO.deleteUnsavedTableAfterSave("unsaved_update_tb");
         }
-        stockDAO.deleteUnsavedTableAfterSave("unsaved_update_tb");
     }
     static void deleteProduct(Controller controller) throws SQLException{
         System.out.print("-> Enter id you want to delete: ");int id=Validation.checkID("delete");

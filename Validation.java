@@ -13,7 +13,7 @@ class Validation {
                 System.out.print("-> Enter ID you want to "+type+": ");
                 input.next();
             }else{
-                id = input.nextInt();
+                id = input.nextInt();input.nextLine();
                 check=false;
             }
         }
@@ -22,7 +22,7 @@ class Validation {
     static String checkName(String type){
         Pattern checkNamePattern = Pattern .compile("^[^\\s][a-zA-Z0-9\\s]+$");
         boolean check=true;
-        String name = input.nextLine();input.nextLine();
+        String name = input.nextLine();
         while(check){
             Matcher matchName = checkNamePattern.matcher(name); 
             if(!matchName.matches()){
@@ -52,7 +52,7 @@ class Validation {
                 System.out.print(type.equals("insert")?"-> Enter Product Price: ":"-> Change Product price to: ");
                 input.next();
             }else{
-                price = input.nextDouble();
+                price = input.nextDouble();input.nextLine();
                 if(price<=0){
                     System.out.println("Price cannot be 0 or less than 0");
                     System.out.print(type.equals("insert")?"-> Enter Product Price: ":"-> Change Product price to: ");
@@ -72,7 +72,7 @@ class Validation {
                 System.out.print(type.equals("insert")?"-> Enter Product Quantity: ":"-> Change Product qty to: ");
                 input.next();
             }else{
-                qty = input.nextInt();
+                qty = input.nextInt();input.nextLine();
                 check=false;
             }
         }

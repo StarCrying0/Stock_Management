@@ -101,7 +101,7 @@ public class StockView {
                 }case "w"->{
                     StockView stockView = new StockView();
                     Controller controller = new Controller(stockDAO, stockView);
-                    Main.insertProduct(stockDAO,controller);
+                    Main.insertProductToUnsavedWrite(stockDAO,controller);
                     startIndex=0;
                     startPage=1;
                     break;
@@ -140,23 +140,27 @@ public class StockView {
                         e.printStackTrace();
                     }
                 }case "un" ->{
+                    boolean check=true;
                     StockView stockView = new StockView();
                     Controller controller = new Controller(stockDAO, stockView);
                     controller.showAllUnsavedWriteData();
-                    System.out.print("Press I to show UnsavedInsert or U to show unsavedUpdate: ");
-                    String type = input.nextLine();
-                    switch(type.toLowerCase()){
-                        case "i" -> {
-                            controller.showAllUnsavedWriteData();
-                            System.out.print("Press Enter to Continue ...");input.nextLine();
-                            break;
-                        }case "u" -> {
-                            controller.showAllUnsavedUpdateData();
-                            break;
-                        }
-                        default ->{
-                            System.out.println("Invalid Choice.");
-                            break;
+                    while(check){
+                        System.out.print("Press I to show Unsaved Insert or U to show Unsaved Update or B to go back to main menu: ");
+                        String type = input.nextLine();
+                        switch(type.toLowerCase()){
+                            case "i" -> {
+                                controller.showAllUnsavedWriteData();
+                                break;
+                            }case "u" -> {
+                                controller.showAllUnsavedUpdateData();
+                                break;
+                            }case "b"->{
+                                check=false;
+                                break;
+                            }default ->{
+                                System.out.println("Invalid Choice.");
+                                break;
+                            }
                         }
                     }
                     
@@ -213,7 +217,7 @@ public class StockView {
         T.setColumnWidth(1, 20, 30);
         T.setColumnWidth(2, 10, 20);
         T.setColumnWidth(3, 10, 20);
-        T.addCell("Stock Management",center,5);
+        T.addCell("Unsaved Product List",center,5);
         T.addCell("Name",center);
         T.addCell("Unit Price",center);
         T.addCell("QTY",center);
@@ -236,7 +240,7 @@ public class StockView {
         T.setColumnWidth(1, 20, 30);
         T.setColumnWidth(2, 10, 20);
         T.setColumnWidth(3, 10, 20);
-        T.addCell("Stock Management",center,5);
+        T.addCell("Unsaved Updated Product List",center,5);
         T.addCell("Name",center);
         T.addCell("Unit Price",center);
         T.addCell("QTY",center);
@@ -252,7 +256,6 @@ public class StockView {
             }
         }
         System.out.println(T.render());
-        System.out.print("Press Enter to Continue ...");input.nextLine();
     }
 }
 
